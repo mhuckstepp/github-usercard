@@ -94,6 +94,7 @@ body {
 
 .card {
   width: 32%;
+  height: 200px;
   padding: 20px;
   display: flex;
   border-radius: 5px;
@@ -126,9 +127,9 @@ body {
 }
 
 .card span {
-  font-size: 1rem;
+  font-size: 1.1rem;
   align-self: center;
-  margin: 5%;
+  margin: 2%;
 }
 
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { gsap } from "gsap";
 
 /*
   List of LS Instructors Github username's:
@@ -17,14 +18,87 @@ console.log(axios);
     https://api.github.com/users/<your name>
 */
 
-axios
-  .get("https://api.github.com/users/mhuckstepp")
-  .then((res) => {
-    document.querySelector(".cards").appendChild(compMaker(res));
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+document.querySelector("#contri").addEventListener("click", () => {
+  axios
+    .get("proxy-url/https://github.com/users/mhuckstepp/contributions")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+document.querySelector("#logo").addEventListener("click", () => {
+  axios
+    .get("https://api.github.com/users/mhuckstepp")
+    .then((res) => {
+      document.querySelector(".cards").appendChild(compMaker(res));
+    })
+    .catch((error) => {
+      debugger;
+    });
+});
+
+document.querySelector("#git").addEventListener("click", () => {
+  axios
+    .get("https://api.github.com/users/mhuckstepp")
+    .then((res) => {
+      const followLink = res.data.followers_url;
+      axios
+        .get(followLink)
+        .then((res) => {
+          console.log(res.data);
+          res.data.forEach((elem) => {
+            let name = elem.login;
+            console.log(name);
+            axios
+              .get(`https://api.github.com/users/${name}`)
+              .then((res) => {
+                document.querySelector(".cards").appendChild(compMaker(res));
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// axios
+// .get("https://api.github.com/users/mhuckstepp")
+// .then((res) => {
+//   console.log(res.data);
+//   const followLink = 'https://api.github.com/users/mhuckstepp/following';
+//   axios
+//     .get(followLink)
+//     .then((res) => {
+//       res.data.forEach((elem) => {
+//         let name = elem.login;
+//         console.log(name);
+//         axios
+//           .get(`https://api.github.com/users/${name}`)
+//           .then((res) => {
+//             document.querySelector(".cards").appendChild(compMaker(res));
+//           })
+//           .catch((error) => {
+//             console.log(error);
+//           });
+//       });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// })
+// .catch((error) => {
+//   console.log(error);
+// });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -100,7 +174,7 @@ function compMaker(res) {
   newDivInfo.classList.add("card-info");
   newDivCard.append(newDivInfo);
   const newHead = document.createElement("h3");
-  newHead.classList.add = "name";
+  newHead.classList.add("name");
   newHead.textContent = res.data.name;
   newDivInfo.append(newHead);
   const newPOne = document.createElement("p");
@@ -131,14 +205,11 @@ function compMaker(res) {
   newSpa.addEventListener("click", (e) => {
     console.log(e.target.parentNode.style);
     if (e.target.parentNode.style.width == "") {
-      e.target.parentNode.style.width = "100%";
-      console.log("hgit");
+      gsap.to(e.target.parentNode, { width: "100%", duration: 1 });
     } else if (e.target.parentNode.style.width == "100%") {
-      e.target.parentNode.style.width = "30%";
-      console.log("hgit");
+      gsap.to(e.target.parentNode, { width: "30%", duration: 1 });
     } else {
-      e.target.parentNode.style.width = "100%";
-      console.log("hgit");
+      gsap.to(e.target.parentNode, { width: "100%", duration: 1 });
     }
   });
   newSpa.addEventListener("mouseover", (e) => {
