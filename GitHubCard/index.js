@@ -18,6 +18,7 @@ console.log(axios);
     https://api.github.com/users/<your name>
 */
 
+//broken code for contributions
 document.querySelector("#contri").addEventListener("click", () => {
   axios
     .get("proxy-url/https://github.com/users/mhuckstepp/contributions")
@@ -29,6 +30,7 @@ document.querySelector("#contri").addEventListener("click", () => {
     });
 });
 
+//Get Max usercard and display it
 document.querySelector("#logo").addEventListener("click", () => {
   axios
     .get("https://api.github.com/users/mhuckstepp")
@@ -40,6 +42,7 @@ document.querySelector("#logo").addEventListener("click", () => {
     });
 });
 
+//get and display Max's followers
 document.querySelector("#git").addEventListener("click", () => {
   axios
     .get("https://api.github.com/users/mhuckstepp")
@@ -71,34 +74,35 @@ document.querySelector("#git").addEventListener("click", () => {
     });
 });
 
-// axios
-// .get("https://api.github.com/users/mhuckstepp")
-// .then((res) => {
-//   console.log(res.data);
-//   const followLink = 'https://api.github.com/users/mhuckstepp/following';
-//   axios
-//     .get(followLink)
-//     .then((res) => {
-//       res.data.forEach((elem) => {
-//         let name = elem.login;
-//         console.log(name);
-//         axios
-//           .get(`https://api.github.com/users/${name}`)
-//           .then((res) => {
-//             document.querySelector(".cards").appendChild(compMaker(res));
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//           });
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// })
-// .catch((error) => {
-//   console.log(error);
-// });
+// Get and display who max is following
+axios
+  .get("https://api.github.com/users/mhuckstepp")
+  .then((res) => {
+    console.log(res.data);
+    const followLink = "https://api.github.com/users/mhuckstepp/following";
+    axios
+      .get(followLink)
+      .then((res) => {
+        res.data.forEach((elem) => {
+          let name = elem.login;
+          console.log(name);
+          axios
+            .get(`https://api.github.com/users/${name}`)
+            .then((res) => {
+              document.querySelector(".cards").appendChild(compMaker(res));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -202,16 +206,18 @@ function compMaker(res) {
   newDivInfo.append(newPSi);
   const newSpa = document.createElement("span");
   newSpa.textContent = "Expand";
+  // event listener to expand and reduce cards
   newSpa.addEventListener("click", (e) => {
     console.log(e.target.parentNode.style);
     if (e.target.parentNode.style.width == "") {
       gsap.to(e.target.parentNode, { width: "100%", duration: 1 });
     } else if (e.target.parentNode.style.width == "100%") {
-      gsap.to(e.target.parentNode, { width: "30%", duration: 1 });
+      gsap.to(e.target.parentNode, { width: "230px", duration: 1 });
     } else {
       gsap.to(e.target.parentNode, { width: "100%", duration: 1 });
     }
   });
+  // event listener to change cursor
   newSpa.addEventListener("mouseover", (e) => {
     if (e.target.parentNode.style.width == "") {
       e.target.style.cursor = "cell";
